@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 st.title("🎲 WoW Spezialisierungs-Rad")
 
-# HTML/JS für das Rad mit voller Ergebnisanzeige und korrigierter Text-Ausrichtung
+# HTML/JS für das Rad mit neuer, cleaner Syntax
 wheel_html = """
 <!DOCTYPE html>
 <html>
@@ -29,21 +29,21 @@ wheel_html = """
     <button id="spin-btn" onclick="spin()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #FFD700; color: black; border: none; border-radius: 5px; font-weight: bold;">Rad drehen!</button>
 
     <script>
-        // Mapping für ausgeschriebene Namen
+        // Neue Syntax: "Kürzel Spec" (Leerzeichen statt Doppelpunkt)
         const nameMap = {
-            "DK:Blut": "Todesritter: Blut", "DK:Frost": "Todesritter: Frost", "DK:Unh": "Todesritter: Unheilig",
-            "DH:Verw": "Dämonenjäger: Verwüstung", "DH:Rach": "Dämonenjäger: Rachsucht",
-            "Drui:Glei": "Druide: Gleichgewicht", "Drui:Wild": "Druide: Wilderkampf", "Drui:Wäch": "Druide: Wächter", "Drui:Wdh": "Druide: Wiederherstellung",
-            "Rufer:Verh": "Rufer: Verheerung", "Rufer:Bew": "Rufer: Bewahrung", "Rufer:Opt": "Rufer: Optimierung",
-            "Jäger:Tier": "Jäger: Tierherrschaft", "Jäger:Treff": "Jäger: Treffsicherheit", "Jäger:Über": "Jäger: Überleben",
-            "Magier:Arka": "Magier: Arkan", "Magier:Feuer": "Magier: Feuer", "Magier:Frost": "Magier: Frost",
-            "Mönch:Brau": "Mönch: Braumeister", "Mönch:Nebel": "Mönch: Nebelwirker", "Mönch:Wind": "Mönch: Windläufer",
-            "Pala:Heilig": "Paladin: Heilig", "Pala:Schutz": "Paladin: Schutz", "Pala:Verg": "Paladin: Vergeltung",
-            "Priester:Disz": "Priester: Disziplin", "Priester:Heil": "Priester: Heilig", "Priester:Schat": "Priester: Schatten",
-            "Schurke:Meu": "Schurke: Meucheln", "Schurke:Geset": "Schurke: Gesetzlosigkeit", "Schurke:Täu": "Schurke: Täuschung",
-            "Schama:Elem": "Schamane: Elementar", "Schama:Verst": "Schamane: Verstärkung", "Schama:Wdh": "Schamane: Wiederherstellung",
-            "Hexer:Gebr": "Hexenmeister: Gebrechen", "Hexer:Dämo": "Hexenmeister: Dämonologie", "Hexer:Zerst": "Hexenmeister: Zerstörung",
-            "Krieger:Waff": "Krieger: Waffen", "Krieger:Fur": "Krieger: Furor", "Krieger:Schu": "Krieger: Schutz"
+            "DK Blut": "Todesritter: Blut", "DK Frost": "Todesritter: Frost", "DK Unh": "Todesritter: Unheilig",
+            "DH Verw": "Dämonenjäger: Verwüstung", "DH Rach": "Dämonenjäger: Rachsucht",
+            "DW Glei": "Druide: Gleichgewicht", "DW Wild": "Druide: Wilderkampf", "DW Wäch": "Druide: Wächter", "DW Wdh": "Druide: Wiederherstellung",
+            "RU Verh": "Rufer: Verheerung", "RU Bew": "Rufer: Bewahrung", "RU Opt": "Rufer: Optimierung",
+            "JG Tier": "Jäger: Tierherrschaft", "JG Treff": "Jäger: Treffsicherheit", "JG Über": "Jäger: Überleben",
+            "MG Arka": "Magier: Arkan", "MG Feuer": "Magier: Feuer", "MG Frost": "Magier: Frost",
+            "MN Brau": "Mönch: Braumeister", "MN Nebel": "Mönch: Nebelwirker", "MN Wind": "Mönch: Windläufer",
+            "PL Heil": "Paladin: Heilig", "PL Schut": "Paladin: Schutz", "PL Verg": "Paladin: Vergeltung",
+            "PR Disz": "Priester: Disziplin", "PR Heil": "Priester: Heilig", "PR Schat": "Priester: Schatten",
+            "SC Meu": "Schurke: Meucheln", "SC Gese": "Schurke: Gesetzlosigkeit", "SC Täu": "Schurke: Täuschung",
+            "SM Elem": "Schamane: Elementar", "SM Vers": "Schamane: Verstärkung", "SM Wdh": "Schamane: Wiederherstellung",
+            "HX Gebr": "Hexenmeister: Gebrechen", "HX Dämo": "Hexenmeister: Dämonologie", "HX Zers": "Hexenmeister: Zerstörung",
+            "KR Waff": "Krieger: Waffen", "KR Fur": "Krieger: Furor", "KR Schut": "Krieger: Schutz"
         };
         
         const options = Object.keys(nameMap);
@@ -64,7 +64,6 @@ wheel_html = """
             const startAngle = i * (360 / num);
             const midAngle = startAngle + (360 / num) / 2;
 
-            // Segment zeichnen
             const start = polarToCartesian(0, 0, outerRadius, startAngle);
             const end = polarToCartesian(0, 0, outerRadius, startAngle + (360 / num));
             const pathData = `M 0 0 L ${start.x} ${start.y} A ${outerRadius} ${outerRadius} 0 0 1 ${end.x} ${end.y} Z`;
@@ -77,26 +76,23 @@ wheel_html = """
             segmentGroup.appendChild(path);
 
             // Text zeichnen
-            const textToDisplay = options[i].split(":")[1]; // Wir nehmen nur den Spec-Teil für das Rad, sonst wird es zu voll
+            const textToDisplay = options[i]; // Jetzt mit Leerzeichen statt Doppelpunkt
             const letters = textToDisplay.split("");
             const step = (outerRadius - innerRadius - 40) / (letters.length + 1);
 
             for (let j = 0; j < letters.length; j++) {
-                const letterRadius = outerRadius - 30 - (j * step); 
+                const letterRadius = outerRadius - 25 - (j * step); 
                 const pos = polarToCartesian(0, 0, letterRadius, midAngle);
                 
                 const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
                 text.setAttribute("x", pos.x);
                 text.setAttribute("y", pos.y);
                 text.setAttribute("fill", "white");
-                text.setAttribute("font-size", "10");
+                text.setAttribute("font-size", "11"); // Leicht größer, da jetzt Platz da ist
                 text.setAttribute("font-weight", "bold");
                 text.setAttribute("text-anchor", "middle");
                 text.setAttribute("dominant-baseline", "middle");
-                
-                // WICHTIG: Hier rotieren wir um die Buchstaben-Position, um Verdrehung zu vermeiden
                 text.setAttribute("transform", `rotate(${midAngle}, ${pos.x}, ${pos.y})`);
-                
                 text.textContent = letters[j];
                 segmentGroup.appendChild(text);
             }
