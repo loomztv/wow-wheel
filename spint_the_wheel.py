@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 st.title("🎲 WoW Glücksrad")
 
-# HTML/JS für ein zuverlässiges SVG-Glücksrad
+# HTML/JS für das Glücksrad mit horizontalem Text
 wheel_html = """
 <!DOCTYPE html>
 <html>
@@ -49,9 +49,10 @@ wheel_html = """
             path.setAttribute("stroke-width", "1");
             segmentGroup.appendChild(path);
 
-            // Text
+            // Text - Hier habe ich die Rotation entfernt, damit er horizontal bleibt
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            const textPos = polarToCartesian(0, 0, radius * 0.7, midAngle);
+            // Text weiter nach außen setzen (radius * 0.6)
+            const textPos = polarToCartesian(0, 0, radius * 0.65, midAngle);
             text.setAttribute("x", textPos.x);
             text.setAttribute("y", textPos.y);
             text.setAttribute("fill", "white");
@@ -59,8 +60,8 @@ wheel_html = """
             text.setAttribute("font-weight", "bold");
             text.setAttribute("text-anchor", "middle");
             text.setAttribute("dominant-baseline", "middle");
-            // Rotation des Textes passend zum Segment
-            text.setAttribute("transform", `rotate(${midAngle}, ${textPos.x}, ${textPos.y})`);
+            // Entfernt: text.setAttribute("transform", `rotate(${midAngle}, ...`); 
+            // Jetzt bleibt der Text immer waagerecht
             text.textContent = options[i];
             segmentGroup.appendChild(text);
         }
