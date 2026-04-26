@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 st.title("🎲 WoW Glücksrad")
 
-# HTML/JS für das Glücksrad mit horizontalem Text
+# HTML/JS für das Glücksrad mit radialem Text (von der Mitte nach außen)
 wheel_html = """
 <!DOCTYPE html>
 <html>
@@ -49,10 +49,10 @@ wheel_html = """
             path.setAttribute("stroke-width", "1");
             segmentGroup.appendChild(path);
 
-            // Text - Hier habe ich die Rotation entfernt, damit er horizontal bleibt
+            // Text - Jetzt rotiert er radial (von der Mitte nach außen)
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            // Text weiter nach außen setzen (radius * 0.6)
-            const textPos = polarToCartesian(0, 0, radius * 0.65, midAngle);
+            const textPos = polarToCartesian(0, 0, radius * 0.6, midAngle);
+            
             text.setAttribute("x", textPos.x);
             text.setAttribute("y", textPos.y);
             text.setAttribute("fill", "white");
@@ -60,8 +60,10 @@ wheel_html = """
             text.setAttribute("font-weight", "bold");
             text.setAttribute("text-anchor", "middle");
             text.setAttribute("dominant-baseline", "middle");
-            // Entfernt: text.setAttribute("transform", `rotate(${midAngle}, ...`); 
-            // Jetzt bleibt der Text immer waagerecht
+            
+            // Hier passiert die Magie: Wir drehen den Text so, dass er radial steht
+            text.setAttribute("transform", `rotate(${midAngle}, ${textPos.x}, ${textPos.y})`);
+            
             text.textContent = options[i];
             segmentGroup.appendChild(text);
         }
