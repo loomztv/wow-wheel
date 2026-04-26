@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 st.title("🎲 WoW Roulette")
 
-# HTML/JS für das Rad mit neuer, cleaner Syntax
+# HTML/JS für das Rad mit zufälliger Anordnung
 wheel_html = """
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,6 @@ wheel_html = """
     <button id="spin-btn" onclick="spin()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #FFD700; color: black; border: none; border-radius: 5px; font-weight: bold;">Rad drehen!</button>
 
     <script>
-        // Neue Syntax: "Kürzel Spec" (Leerzeichen statt Doppelpunkt)
         const nameMap = {
             "DK Blut": "Todesritter: Blut", "DK Frost": "Todesritter: Frost", "DK Unh": "Todesritter: Unheilig",
             "DH Verw": "Dämonenjäger: Verwüstung", "DH Rach": "Dämonenjäger: Rachsucht", "DH Verschl": "Dämonenjäger: Verschlinger",
@@ -46,7 +45,18 @@ wheel_html = """
             "KR Waff": "Krieger: Waffen", "KR Fur": "Krieger: Furor", "KR Schut": "Krieger: Schutz"
         };
         
-        const options = Object.keys(nameMap);
+        // Zufalls-Funktion (Fisher-Yates Shuffle)
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        const options = shuffle(Object.keys(nameMap)); // HIER passiert das Zufalls-Mischen
         const num = options.length;
         const outerRadius = 210;
         const innerRadius = 40;
@@ -60,6 +70,7 @@ wheel_html = """
             return { x: centerX + (radius * Math.cos(angleInRadians)), y: centerY + (radius * Math.sin(angleInRadians)) };
         }
 
+        // Segmente zeichnen
         for (let i = 0; i < num; i++) {
             const startAngle = i * (360 / num);
             const midAngle = startAngle + (360 / num) / 2;
@@ -75,8 +86,7 @@ wheel_html = """
             path.setAttribute("stroke-width", "1");
             segmentGroup.appendChild(path);
 
-            // Text zeichnen
-            const textToDisplay = options[i]; // Jetzt mit Leerzeichen statt Doppelpunkt
+            const textToDisplay = options[i];
             const letters = textToDisplay.split("");
             const step = (outerRadius - innerRadius - 40) / (letters.length + 1);
 
@@ -88,7 +98,7 @@ wheel_html = """
                 text.setAttribute("x", pos.x);
                 text.setAttribute("y", pos.y);
                 text.setAttribute("fill", "white");
-                text.setAttribute("font-size", "11"); // Leicht größer, da jetzt Platz da ist
+                text.setAttribute("font-size", "11");
                 text.setAttribute("font-weight", "bold");
                 text.setAttribute("text-anchor", "middle");
                 text.setAttribute("dominant-baseline", "middle");
