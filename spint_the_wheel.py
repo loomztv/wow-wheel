@@ -32,7 +32,7 @@ wheel_html = """
         // Neue Syntax: "Kürzel Spec" (Leerzeichen statt Doppelpunkt)
         const nameMap = {
             "DK Blut": "Todesritter: Blut", "DK Frost": "Todesritter: Frost", "DK Unh": "Todesritter: Unheilig",
-            "DH Verw": "Dämonenjäger: Verwüstung", "DH Rach": "Dämonenjäger: Rachsucht",
+            "DH Verw": "Dämonenjäger: Verwüstung", "DH Rach": "Dämonenjäger: Rachsucht", "DH Verschl": "Dämonenjäger: Verschlinger"
             "DW Glei": "Druide: Gleichgewicht", "DW Wild": "Druide: Wilderkampf", "DW Wäch": "Druide: Wächter", "DW Wdh": "Druide: Wiederherstellung",
             "RU Verh": "Rufer: Verheerung", "RU Bew": "Rufer: Bewahrung", "RU Opt": "Rufer: Optimierung",
             "JG Tier": "Jäger: Tierherrschaft", "JG Treff": "Jäger: Treffsicherheit", "JG Über": "Jäger: Überleben",
