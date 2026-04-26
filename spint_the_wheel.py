@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.title("🎲 WoW Spezialisierungs-Rad")
+st.title("🎲 WoW Roulette")
 
 # HTML/JS für das Rad mit neuer, cleaner Syntax
 wheel_html = """
