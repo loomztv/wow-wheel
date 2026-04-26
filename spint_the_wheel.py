@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+import time
 
 # WoW Daten
 wow_data = {
@@ -18,19 +19,32 @@ wow_data = {
     "Krieger": ["Waffen", "Furor", "Schutz"]
 }
 
-# Web-Oberfläche gestalten
 st.set_page_config(page_title="WoW Picker", page_icon="🎲")
 st.title("🎲 WoW Klassen-Zufallsgenerator")
-st.write("Klicke auf den Button, um dein Schicksal zu bestimmen!")
 
-# Button Logik
-if st.button("Spin the Wheel!"):
-    # Zufallsauswahl
-    klasse = random.choice(list(wow_data.keys()))
-    spec = random.choice(wow_data[klasse])
-
-    # Anzeige
-    st.subheader("Deine Entscheidung:")
-    st.success(f"### ⚔️ Klasse: {klasse}")
-    st.info(f"### 🛡️ Spezialisierung: {spec}")
+if st.button("Rad drehen!"):
+    # Platzhalter für die Animation
+    slot_container = st.empty()
+    
+    # Anzahl der Durchläufe
+    durchlaeufe = 20
+    
+    # Animation: Schnell durch die Klassen/Specs wechseln
+    for i in range(durchlaeufe):
+        klasse = random.choice(list(wow_data.keys()))
+        spec = random.choice(wow_data[klasse])
+        
+        # UI aktualisieren
+        slot_container.markdown(f"### 🌀 {klasse} - {spec}")
+        
+        # Geschwindigkeit steuern (wird zum Ende hin langsamer)
+        # i / durchlaeufe sorgt dafür, dass die Wartezeit länger wird
+        time.sleep(0.05 + (i / 100))
+    
+    # Endergebnis
+    final_klasse = random.choice(list(wow_data.keys()))
+    final_spec = random.choice(wow_data[final_klasse])
+    
+    # Endergebnis anzeigen
+    slot_container.success(f"### 🎉 Deine Wahl: {final_klasse} ({final_spec})")
     st.balloons()
