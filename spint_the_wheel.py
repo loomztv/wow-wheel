@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 st.title("🎲 WoW Glücksrad")
 
-# HTML/JS für das Glücksrad mit radialem Text (von der Mitte nach außen)
+# HTML/JS für das Glücksrad mit ECHT vertikalem Text (von oben nach unten geschriebene Buchstaben)
 wheel_html = """
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@ wheel_html = """
 <style>
     body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; background-color: #0e1117; color: white; }
     #wheel { cursor: pointer; transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-    text { user-select: none; pointer-events: none; font-family: sans-serif; }
+    text { user-select: none; pointer-events: none; font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; }
 </style>
 </head>
 <body>
@@ -22,7 +22,7 @@ wheel_html = """
     <button onclick="spin()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #FFD700; color: black; border: none; border-radius: 5px; font-weight: bold;">Rad drehen!</button>
 
     <script>
-        const options = ["DK", "DH", "Druide", "Rufer", "Jäger", "Magier", "Mönch", "Paladin", "Priester", "Schurke", "Schamane", "Hexer", "Krieger"];
+        const options = ["Krieger", "Paladin", "Jäger", "Schurke", "Priester", "Todesritter", "Schamane", "Magier", "Hexer", "Mönch", "Druide", "Dämonenjäger", "Rufer"];
         const num = options.length;
         const radius = 180;
         const segmentGroup = document.getElementById('segments');
@@ -49,23 +49,33 @@ wheel_html = """
             path.setAttribute("stroke-width", "1");
             segmentGroup.appendChild(path);
 
-            // Text - Jetzt rotiert er radial (von der Mitte nach außen)
-            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            const textPos = polarToCartesian(0, 0, radius * 0.6, midAngle);
-            
-            text.setAttribute("x", textPos.x);
-            text.setAttribute("y", textPos.y);
-            text.setAttribute("fill", "white");
-            text.setAttribute("font-size", "12");
-            text.setAttribute("font-weight", "bold");
-            text.setAttribute("text-anchor", "middle");
-            text.setAttribute("dominant-baseline", "middle");
-            
-            // Hier passiert die Magie: Wir drehen den Text so, dass er radial steht
-            text.setAttribute("transform", `rotate(${midAngle}, ${textPos.x}, ${textPos.y})`);
-            
-            text.textContent = options[i];
-            segmentGroup.appendChild(text);
+            // ECHT Vertikaler Text
+            const className = options[i];
+            const letters = className.split("");
+            const textGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+            for (let j = 0; j < letters.length; j++) {
+                const letter = letters[j];
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                
+                // Position für jeden Buchstaben einzeln berechnen (von der Mitte nach außen)
+                const letterRadius = radius * 0.2 + (j * 14); // 0.2 Start-Radius, 14px Abstand pro Buchstabe
+                const textPos = polarToCartesian(0, 0, letterRadius, midAngle);
+                
+                text.setAttribute("x", textPos.x);
+                text.setAttribute("y", textPos.y);
+                text.setAttribute("fill", "white");
+                text.setAttribute("font-size", "12");
+                text.setAttribute("font-weight", "bold");
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("dominant-baseline", "middle");
+                
+                // Wir müssen den Buchstaben nicht drehen, er steht waagerecht,
+                // aber die Positionen der Buchstaben stehen untereinander radial nach außen.
+                text.textContent = letter;
+                textGroup.appendChild(text);
+            }
+            segmentGroup.appendChild(textGroup);
         }
 
         let currentRotation = 0;
