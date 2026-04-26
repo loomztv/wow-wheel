@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.title("🎲 WoW Roulette")
+st.title("🎲 Bleeding Guardians Twink Roulette")
 
 # HTML/JS für das Rad mit zufälliger Anordnung
 wheel_html = """
